@@ -33,6 +33,10 @@ export function setupSocket(io: Server) {
     // Notificar a todos que este usuario está online
     socket.broadcast.emit('user_online', { userId, username });
 
+    // Enviar al recién conectado quién está ya online
+    const onlineList = Array.from(onlineUsers.keys()).filter(id => id !== userId);
+    socket.emit('online_users', onlineList);
+
     // Enviar mensaje de texto
     socket.on('send_message', async (data: {
       conversationId: string;
