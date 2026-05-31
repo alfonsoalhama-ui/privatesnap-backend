@@ -30,6 +30,9 @@ export function setupSocket(io: Server) {
     // Unirse a sala personal para recibir mensajes
     socket.join(`user:${userId}`);
 
+    // Notificar a todos que este usuario está online
+    socket.broadcast.emit('user_online', { userId, username });
+
     // Enviar mensaje de texto
     socket.on('send_message', async (data: {
       conversationId: string;
@@ -96,6 +99,7 @@ export function setupSocket(io: Server) {
     socket.on('disconnect', () => {
       onlineUsers.delete(userId);
       console.log(`❌ ${username} disconnected`);
+      socket.broadcast.emit('user_offline', { userId, username });
     });
   });
 }
