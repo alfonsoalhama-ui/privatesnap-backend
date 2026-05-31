@@ -16,9 +16,10 @@ const io = new Server(httpServer, {
   cors: { origin: '*' },
 });
 
-// Middleware
+// Middleware — límite grande ANTES de las rutas
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '150mb' }));
+app.use(express.urlencoded({ limit: '150mb', extended: true }));
 
 // Health check
 app.get('/', (req, res) => {
@@ -29,7 +30,6 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/conversations', conversationsRouter);
 app.use('/media', mediaRouter);
-app.use(express.json({ limit: '100mb' })); // Para archivos grandes
 
 // Socket.io
 setupSocket(io);
