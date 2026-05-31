@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import { authRouter } from './routes/auth';
 import { conversationsRouter } from './routes/conversations';
+import { mediaRouter } from './routes/media';
 import { setupSocket } from './socket';
 import { initDB } from './db';
 
@@ -27,6 +28,8 @@ app.get('/', (req, res) => {
 // Rutas
 app.use('/auth', authRouter);
 app.use('/conversations', conversationsRouter);
+app.use('/media', mediaRouter);
+app.use(express.json({ limit: '100mb' })); // Para archivos grandes
 
 // Socket.io
 setupSocket(io);

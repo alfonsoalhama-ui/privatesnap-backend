@@ -33,6 +33,20 @@ export async function initDB() {
       viewed_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT NOW()
     );
+
+    CREATE TABLE IF NOT EXISTS media (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      uploader_id UUID REFERENCES users(id),
+      recipient_id UUID REFERENCES users(id),
+      conversation_id UUID REFERENCES conversations(id),
+      media_type VARCHAR(10) NOT NULL DEFAULT 'image',
+      file_name TEXT NOT NULL,
+      iv TEXT NOT NULL,
+      security_level INT DEFAULT 1,
+      expires_at TIMESTAMP,
+      viewed_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
   `);
   console.log('✅ Database tables ready');
 }
