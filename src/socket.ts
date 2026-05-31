@@ -67,6 +67,7 @@ export function setupSocket(io: Server) {
         io.to(`user:${recipientId}`).emit('new_message', {
           ...message,
           conversationId: data.conversationId,
+          sender_username: username,
         });
 
         // Confirmar al emisor
